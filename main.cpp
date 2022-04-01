@@ -21,7 +21,7 @@ int main(int argc, const char** args)
                 quit = true;
             }      
         }    
-        glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+        glClearColor(0.3f, 0.7f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         renderer.render_frame();
     }

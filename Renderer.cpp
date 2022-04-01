@@ -20,5 +20,41 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
 }
 
 void Renderer::render_frame() {
+    glLineWidth(5.0);
+    glBegin(GL_LINES);
+        glColor3f(0.8f, 0.4f, 0.9f);
+
+        //vertical
+        glVertex2f(-0.333333f, 1.0f);
+        glVertex2f(-0.333333f, -1.0f);
+
+        glVertex2f(0.333333f, 1.0f);
+        glVertex2f(0.333333f, -1.0f);
+
+        glVertex2f(1.0f, 1.0f);
+        glVertex2f(1.0f, -1.0f);
+
+        glVertex2f(-1.0f, 1.0f);
+        glVertex2f(-1.0f, -1.0f);
+
+        //horizontal
+        glVertex2f(1.0f, -0.333333f);
+        glVertex2f(-1.0f, -0.333333f);
+
+        glVertex2f(1.0f, 0.333333f);
+        glVertex2f(-1.0f, 0.333333f);
+
+        glVertex2f(1.0f, 1.0f);
+        glVertex2f(-1.0f, 1.0f);
+
+        glVertex2f(-1.0f, -1.0f);
+        glVertex2f(1.0f, -1.0f);
+
+    glEnd();
+
     SDL_GL_SwapWindow(win);
+
+    
+
+
 }
