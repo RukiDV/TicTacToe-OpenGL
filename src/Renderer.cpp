@@ -19,6 +19,7 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
     }
 }
 
+//Set field and line colors
 void Renderer::render_frame() {
     glLineWidth(5.0);
     glBegin(GL_LINES);

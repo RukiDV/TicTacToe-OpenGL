@@ -7,10 +7,11 @@
 int main(int argc, const char** args)
 {
 
-    constexpr int x = 1000;
-    constexpr int y = 800;
+    constexpr int window_x = 1000;
+    constexpr int window_y = 800;
 
-    Renderer renderer(x, y);
+    Renderer renderer(window_x, window_y);
+    Field field;
     
     //Create event loop
     bool quit = false;
@@ -24,8 +25,11 @@ int main(int argc, const char** args)
             else if(e.type == SDL_MOUSEBUTTONDOWN) {
                 if(e.button.button == SDL_BUTTON_LEFT) {
                     
-                    std::cout << e.button.x << std::endl;
-                    std::cout << e.button.y << std::endl;
+                    std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
+                    glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
+                    glm::ivec2 boxIdx = field.mousePosToBoxIdx(normalizedMousePos);
+                    std::cout << "Normalized mouse position: " << normalizedMousePos.x << "; " << normalizedMousePos.y << std::endl;
+                    std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
                 }
 
             }      
