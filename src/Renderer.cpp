@@ -20,7 +20,7 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
 }
 
 //Set field and line colors
-void Renderer::render_frame() {
+void Renderer::renderFrame() {
     glLineWidth(5.0);
     glBegin(GL_LINES);
         glColor3f(0.8f, 0.4f, 0.9f);
@@ -54,8 +54,4 @@ void Renderer::render_frame() {
     glEnd();
 
     SDL_GL_SwapWindow(win);
-
-    
-
-
 }

@@ -24,19 +24,19 @@ int main(int argc, const char** args)
             }
             else if(e.type == SDL_MOUSEBUTTONDOWN) {
                 if(e.button.button == SDL_BUTTON_LEFT) {
-                    
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     glm::ivec2 boxIdx = field.mousePosToBoxIdx(normalizedMousePos);
                     std::cout << "Normalized mouse position: " << normalizedMousePos.x << "; " << normalizedMousePos.y << std::endl;
                     std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
-                }
 
-            }      
-        }    
+                }
+            }
+        }
+
         glClearColor(0.3f, 0.7f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        renderer.render_frame();
+        renderer.renderFrame();
     }
     return 0;
 }

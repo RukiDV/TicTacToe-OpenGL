@@ -7,7 +7,7 @@ class Renderer {
 
 public:
     Renderer(int width, int height);
-    void render_frame();
+    void renderFrame();
 private:
     int width;
     int height;    
