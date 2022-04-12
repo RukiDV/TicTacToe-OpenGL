@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 
 #include "Renderer.h"
+#include "defines.h"
+#include "drawable.h"
 #include "Field.h"
 
 int main(int argc, const char** args)
@@ -16,7 +18,8 @@ int main(int argc, const char** args)
     //Create event loop
     bool quit = false;
     SDL_Event e;
-   
+    Drawable drawable({Vertex(glm::vec3(1.0f), glm::vec4(1.0f))}, {0}, "../shader/basic.vert", "../shader/basic.frag");
+
     while(!quit) {
         if(SDL_PollEvent(&e)) {
             if(e.window.event == SDL_WINDOWEVENT_CLOSE) {

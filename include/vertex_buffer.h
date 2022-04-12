@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include "defines.h"
 
-class vertex_buffer {
+class VertexBuffer {
 public:
     VertexBuffer(void* data, uint32_t numVertices) {
         glGenVertexArrays(1, &vao);
@@ -14,10 +14,10 @@ public:
         glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(Vertex), data, GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(struct Vertex, x));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) 0);
 
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(struct Vertex, r));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) 12);
 
         glBindVertexArray(0);
     }

@@ -53,7 +53,7 @@
     }
 
     std::string Shader::parse(const char* filename) {
-        // TODO: use std::filesystem
+        // TODO: use std::filesystem!!!
         FILE* file;
         fopen_s(&file, filename, "rb");
         if(file == nullptr) {

@@ -4,10 +4,10 @@
 
 class IndexBuffer {
 public:
-    IndexBuffer(void* data, uint32_t numIndices, uint8_t elementSize) {
+    IndexBuffer(void* data, uint32_t numIndices) {
         glGenBuffers(1, &bufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * elementSize, data, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(uint32_t), data, GL_STATIC_DRAW);
     }
 
     virtual ~IndexBuffer() {
