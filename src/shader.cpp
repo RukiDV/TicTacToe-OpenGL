@@ -1,9 +1,10 @@
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 #include "shader.h"
 
-    Shader::Shader(const char* vertexShaderFilename, const char* fragmentShaderFilename)
+    Shader::Shader(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename)
     {
         std::string vertexShaderSource = parse(vertexShaderFilename);
         std::string fragmentShaderSource = parse(fragmentShaderFilename);
@@ -32,7 +33,7 @@
     }
 
 
-    GLuint Shader::compile(std::string shaderSource, GLenum type) {
+    GLuint Shader::compile(std::string& shaderSource, GLenum type) {
         GLuint id = glCreateShader(type);
         const char* src = shaderSource.c_str();
         glShaderSource(id, 1, &src, 0);
@@ -52,22 +53,20 @@
         return id;
     }
 
-    std::string Shader::parse(const char* filename) {
+    std::string Shader::parse(const std::string& filename) {
         // TODO: use std::filesystem!!!
-        FILE* file;
-        fopen_s(&file, filename, "rb");
-        if(file == nullptr) {
+        std::filesystem::path path = filename;
+        std::ifstream file(path, std::ios::in | std::ios::binary);
+
+        if(!file.is_open()) {
             std::cout << "File " << filename << " not found" << std::endl;
         }
 
-        std::string contents;
-        fseek(file, 0, SEEK_END);
-        size_t filesize = ftell(file);
-        rewind(file);
-        contents.resize(filesize);
+        const std::size_t& size = std::filesystem::file_size(path);
+        std::string contents(size, '\0');
 
-        fread(contents.c_str(), 1, filesize, file);
-        fclose(file);
+        file.read(contents.data(), size);
+        file.close();
 
         return contents;
     }

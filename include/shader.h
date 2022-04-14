@@ -4,7 +4,7 @@
 
 class Shader {
 public:
-    Shader(const char* vertexShaderFilename, const char* fragmentShaderFilename);
+    Shader(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
     virtual ~Shader();
 
     void bind();
@@ -15,8 +15,8 @@ public:
     }
 
 private:
-    GLuint compile(std::string shaderSource, GLenum type);
-    std::string parse(const char* filename);
+    GLuint compile(std::string& shaderSource, GLenum type);
+    std::string parse(const std::string& filename);
 
     GLuint shaderID;
 };
