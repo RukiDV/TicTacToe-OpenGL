@@ -54,7 +54,6 @@
     }
 
     std::string Shader::parse(const std::string& filename) {
-        // TODO: use std::filesystem!!!
         std::filesystem::path path = filename;
         std::ifstream file(path, std::ios::in | std::ios::binary);
 

@@ -1,6 +1,6 @@
 #include "drawable.h"
 
-void Drawable::draw(GLenum mode) {
+void Drawable::draw() {
     shader.bind();
     vertexBuffer.bind();
     indexBuffer.bind();

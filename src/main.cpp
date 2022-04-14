@@ -8,18 +8,22 @@
 
 int main(int argc, const char** args)
 {
-
     constexpr int window_x = 1000;
     constexpr int window_y = 800;
 
     Renderer renderer(window_x, window_y);
     Field field;
-    
+
     //Create event loop
     bool quit = false;
     SDL_Event e;
-    Drawable drawable({Vertex(glm::vec3(1.0f), glm::vec4(1.0f))}, {0}, "../shader/basic.vert", "../shader/basic.frag");
+    Drawable drawable({Vertex(glm::vec3(-0.333333f, 1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)), 
+    Vertex(glm::vec3(-0.333333f, -1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+    Vertex(glm::vec3(0.333333f, 1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+    }, {0, 1, 2}, "../shader/basic.vert", "../shader/basic.frag", GL_LINES);
 
+    renderer.addDrawable(Lines, drawable);
+    
     while(!quit) {
         if(SDL_PollEvent(&e)) {
             if(e.window.event == SDL_WINDOWEVENT_CLOSE) {

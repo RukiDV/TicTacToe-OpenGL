@@ -1,6 +1,3 @@
-#include <GL/glew.h>
-#include <iostream>
-
 #include "Renderer.h"
 
 Renderer::Renderer(int width, int height) : width(width), height(height) {
@@ -21,7 +18,7 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
 
 //Set field and line colors
 void Renderer::renderFrame() {
-    glLineWidth(5.0);
+    /*glLineWidth(5.0);
     glBegin(GL_LINES);
         glColor3f(0.8f, 0.4f, 0.9f);
 
@@ -51,7 +48,19 @@ void Renderer::renderFrame() {
         glVertex2f(-1.0f, -1.0f);
         glVertex2f(1.0f, -1.0f);
 
-    glEnd();
+    glEnd();*/
+
+    for(auto i : drawables) {
+        i.second.draw();
+    }
 
     SDL_GL_SwapWindow(win);
+}
+
+void Renderer::addDrawable(DrawableName drawableName, Drawable& drawable){
+    drawables.emplace(drawableName, drawable);
+}
+
+Drawable& Renderer::removeDrawable(DrawableName drawableName) {
+    return drawables.extract(drawableName).mapped();
 }
