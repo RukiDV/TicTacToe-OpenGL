@@ -12,7 +12,11 @@ enum DrawableName {
 
 class Drawable {
 public:
-virtual void draw() = 0;
+virtual void draw() {
+    shader.bind();
+    vertexBuffer.bind();
+    indexBuffer.bind();
+}
 
 protected:
 Drawable(std::vector<Vertex> vertices, std::vector<uint32_t> indices, const std::string& vertexShader, const std::string& fragmentShader) : 
