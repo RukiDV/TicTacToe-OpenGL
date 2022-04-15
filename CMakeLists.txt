@@ -8,9 +8,9 @@ if (WIN32)
 endif()
 set(glm_DIR dependencies/glm-0.9.9.8/glm/cmake/glm)
 
-set(SOURCE_FILES Renderer.cpp)
+set(SOURCE_FILES src/Renderer.cpp src/shader.cpp src/Field.cpp src/lines.cpp src/triangles.cpp)
 
-add_executable(TicTacToe main.cpp ${SOURCE_FILES})
+add_executable(TicTacToe src/main.cpp ${SOURCE_FILES})
 
 find_package(SDL2 REQUIRED)
 find_package(GLEW REQUIRED)
