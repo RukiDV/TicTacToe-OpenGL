@@ -3,7 +3,8 @@
 
 #include "Renderer.h"
 #include "defines.h"
-#include "drawable.h"
+#include "lines.h"
+#include "triangles.h"
 #include "Field.h"
 
 int main(int argc, const char** args)
@@ -14,15 +15,33 @@ int main(int argc, const char** args)
     Renderer renderer(window_x, window_y);
     Field field;
 
-    //Create event loop
+    //Create event loop, field representation
     bool quit = false;
     SDL_Event e;
-    Drawable drawable({Vertex(glm::vec3(-0.333333f, 1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)), 
+    Lines fieldLines({Vertex(glm::vec3(-0.333333f, 1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)), 
     Vertex(glm::vec3(-0.333333f, -1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
-    Vertex(glm::vec3(0.333333f, 1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
-    }, {0, 1, 2}, "../shader/basic.vert", "../shader/basic.frag", GL_LINES);
 
-    renderer.addDrawable(Lines, drawable);
+    Vertex(glm::vec3(0.333333f, 1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+    Vertex(glm::vec3(0.333333f, -1.0f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    Vertex(glm::vec3(1.0f, -0.333333f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+    Vertex(glm::vec3(-1.0f, -0.333333f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    Vertex(glm::vec3(1.0f, 0.333333f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+    Vertex(glm::vec3(-1.0f, 0.333333f, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    Vertex(glm::vec3(1.0f, 1.0, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+    Vertex(glm::vec3(-1.0f, 1.0, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    Vertex(glm::vec3(1.0f, -1.0, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    Vertex(glm::vec3(-1.0f, -1.0, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    Vertex(glm::vec3(-1.0f, 1.0, 0.0f), glm::vec4(0.8f, 0.4f, 0.9f, 1.0f)),
+
+    }, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 10, 10, 11, 11, 12}, "../shader/basic.vert", "../shader/basic.frag", 5.0f);
+
+    renderer.addDrawable(Fieldlines, fieldLines);
     
     while(!quit) {
         if(SDL_PollEvent(&e)) {

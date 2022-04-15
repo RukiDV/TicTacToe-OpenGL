@@ -7,23 +7,21 @@
 #include "shader.h"
 
 enum DrawableName {
-    Lines
+    Fieldlines
 };
 
 class Drawable {
-// TODO: use inheritance to represent lines and triangles
 public:
-Drawable(std::vector<Vertex> vertices, std::vector<uint32_t> indices, const std::string& vertexShader, const std::string& fragmentShader, GLenum mode) : 
+virtual void draw() = 0;
+
+protected:
+Drawable(std::vector<Vertex> vertices, std::vector<uint32_t> indices, const std::string& vertexShader, const std::string& fragmentShader) : 
     numIndices(indices.size()), vertexBuffer(VertexBuffer((void*) vertices.data(), vertices.size())), 
-    indexBuffer(IndexBuffer((void*) indices.data(), indices.size())), shader(Shader(vertexShader, fragmentShader)), mode(mode) {
+    indexBuffer(IndexBuffer((void*) indices.data(), indices.size())), shader(Shader(vertexShader, fragmentShader)) {
 }
 
-void draw();
-
-private:
 VertexBuffer vertexBuffer;
 IndexBuffer indexBuffer;
 uint32_t numIndices;
 Shader shader;
-GLenum mode;
 };
