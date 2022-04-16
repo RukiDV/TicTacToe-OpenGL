@@ -1,3 +1,5 @@
+#pragma once
+
 #include "drawable.h"
 
 class Lines : public Drawable {
