@@ -5,6 +5,8 @@
 
 class VertexBuffer {
 public:
+    VertexBuffer() = default;
+    
     VertexBuffer(void* data, uint32_t numVertices) {
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);

@@ -4,8 +4,8 @@
 
 class Lines : public Drawable {
 public:
-    Lines(std::vector<Vertex> vertices, std::vector<uint32_t> indices, const std::string& vertexShader, const std::string& fragmentShader, float lineWidth) : 
-        Drawable(vertices, indices, vertexShader, fragmentShader), lineWidth(lineWidth) {}
+    Lines(const std::string& vertexShader, const std::string& fragmentShader, float lineWidth) : 
+        Drawable(vertexShader, fragmentShader), lineWidth(lineWidth) {}
 
 void draw();
 

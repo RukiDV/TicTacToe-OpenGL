@@ -9,7 +9,6 @@
 #include "drawable.h"
 
 class Renderer {
-
 public:
     Renderer(int width, int height);
     void renderFrame();

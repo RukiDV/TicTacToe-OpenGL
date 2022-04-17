@@ -18,8 +18,12 @@ int main(int argc, const char** args)
     bool quit = false;
     SDL_Event e;
 
-    std::shared_ptr<Drawable> fieldLines = createFieldLines();
-    renderer.addDrawable(Fieldlines, fieldLines);
+    std::shared_ptr<Drawable> fieldLines = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
+    std::shared_ptr<Drawable> crosses = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
+    addFieldLines(fieldLines);
+    
+    renderer.addDrawable(FieldLines, fieldLines);
+    renderer.addDrawable(Crosses, crosses);
     
     while(!quit) {
         if(SDL_PollEvent(&e)) {
@@ -31,7 +35,7 @@ int main(int argc, const char** args)
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     glm::ivec2 boxIdx = field.mousePosToBoxIdx(normalizedMousePos);
-                    
+                    addCross(crosses, transformCoordSDLToOGL(normalizedMousePos));
                     std::cout << "Normalized mouse position: " << normalizedMousePos.x << "; " << normalizedMousePos.y << std::endl;
                     std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
 

@@ -4,6 +4,8 @@
 
 class IndexBuffer {
 public:
+    IndexBuffer() = default;
+
     IndexBuffer(void* data, uint32_t numIndices) {
         glGenBuffers(1, &bufferId);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferId);

@@ -4,4 +4,5 @@
 #include "lines.h"
 #include "triangles.h"
 
-std::shared_ptr<Drawable> createFieldLines();
+void addFieldLines(std::shared_ptr<Drawable> drawable);
+void addCross(std::shared_ptr<Drawable> drawable, glm::vec2 pos);
