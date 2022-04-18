@@ -9,15 +9,14 @@
 #include "drawable.h"
 
 class Renderer {
-
 public:
     Renderer(int width, int height);
     void renderFrame();
-    void addDrawable(DrawableName drawableName, Drawable& drawable);
-    Drawable& removeDrawable(DrawableName drawableName);
+    void addDrawable(DrawableName drawableName, std::shared_ptr<Drawable> drawable);
+    std::shared_ptr<Drawable> removeDrawable(DrawableName drawableName);
 private:
     int width;
     int height;
     SDL_Window* win = nullptr;
-    std::unordered_map<DrawableName, Drawable&> drawables;
+    std::unordered_map<DrawableName, std::shared_ptr<Drawable>> drawables;
 };

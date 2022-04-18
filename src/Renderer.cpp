@@ -20,16 +20,16 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
 void Renderer::renderFrame() {
 
     for(auto i : drawables) {
-        i.second.draw();
+        i.second->draw();
     }
 
     SDL_GL_SwapWindow(win);
 }
 
-void Renderer::addDrawable(DrawableName drawableName, Drawable& drawable){
+void Renderer::addDrawable(DrawableName drawableName, std::shared_ptr<Drawable> drawable){
     drawables.emplace(drawableName, drawable);
 }
 
-Drawable& Renderer::removeDrawable(DrawableName drawableName) {
+std::shared_ptr<Drawable> Renderer::removeDrawable(DrawableName drawableName) {
     return drawables.extract(drawableName).mapped();
 }
