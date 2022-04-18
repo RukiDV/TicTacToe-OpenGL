@@ -26,10 +26,10 @@ void Renderer::renderFrame() {
     SDL_GL_SwapWindow(win);
 }
 
-void Renderer::addDrawable(DrawableName drawableName, std::shared_ptr<Drawable> drawable){
+void Renderer::addDrawable(Drawable::DrawableName drawableName, std::shared_ptr<Drawable> drawable){
     drawables.emplace(drawableName, drawable);
 }
 
-std::shared_ptr<Drawable> Renderer::removeDrawable(DrawableName drawableName) {
+std::shared_ptr<Drawable> Renderer::removeDrawable(Drawable::DrawableName drawableName) {
     return drawables.extract(drawableName).mapped();
 }

@@ -22,10 +22,12 @@ int main(int argc, const char** args)
 
     std::shared_ptr<Drawable> fieldLines = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
     std::shared_ptr<Drawable> crosses = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
+    std::shared_ptr<Drawable> triangles = std::make_shared<Triangles>("../shader/basic.vert", "../shader/basic.frag");
     dof::addFieldLines(fieldLines);
     
-    renderer.addDrawable(FieldLines, fieldLines);
-    renderer.addDrawable(Crosses, crosses);
+    renderer.addDrawable(Drawable::FieldLines, fieldLines);
+    renderer.addDrawable(Drawable::Crosses, crosses);
+    renderer.addDrawable(Drawable::Triangles, triangles);
     
     while(!quit) {
         if(SDL_PollEvent(&e)) {
@@ -38,6 +40,7 @@ int main(int argc, const char** args)
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     glm::ivec2 boxIdx = field.mousePosToBoxIdx(normalizedMousePos);
                     dof::addCross(crosses, transformCoordSDLToOGL(normalizedMousePos));
+                    dof::addTriangle(triangles, transformCoordSDLToOGL(normalizedMousePos));
                     std::cout << "Normalized mouse position: " << normalizedMousePos.x << "; " << normalizedMousePos.y << std::endl;
                     std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
 
