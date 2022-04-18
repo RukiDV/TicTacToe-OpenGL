@@ -3,8 +3,10 @@
 
 #include "Renderer.h"
 #include "defines.h"
-#include "drawable_factory.h"
+#include "draw_object_factory.h"
 #include "Field.h"
+
+namespace dof = draw_object_factory;
 
 int main(int argc, const char** args)
 {
@@ -20,7 +22,7 @@ int main(int argc, const char** args)
 
     std::shared_ptr<Drawable> fieldLines = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
     std::shared_ptr<Drawable> crosses = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
-    addFieldLines(fieldLines);
+    dof::addFieldLines(fieldLines);
     
     renderer.addDrawable(FieldLines, fieldLines);
     renderer.addDrawable(Crosses, crosses);
@@ -35,7 +37,7 @@ int main(int argc, const char** args)
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     glm::ivec2 boxIdx = field.mousePosToBoxIdx(normalizedMousePos);
-                    addCross(crosses, transformCoordSDLToOGL(normalizedMousePos));
+                    dof::addCross(crosses, transformCoordSDLToOGL(normalizedMousePos));
                     std::cout << "Normalized mouse position: " << normalizedMousePos.x << "; " << normalizedMousePos.y << std::endl;
                     std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
 
