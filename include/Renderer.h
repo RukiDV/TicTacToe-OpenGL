@@ -12,11 +12,11 @@ class Renderer {
 public:
     Renderer(int width, int height);
     void renderFrame();
-    void addDrawable(DrawableName drawableName, std::shared_ptr<Drawable> drawable);
-    std::shared_ptr<Drawable> removeDrawable(DrawableName drawableName);
+    void addDrawable(Drawable::DrawableName drawableName, std::shared_ptr<Drawable> drawable);
+    std::shared_ptr<Drawable> removeDrawable(Drawable::DrawableName drawableName);
 private:
     int width;
     int height;
     SDL_Window* win = nullptr;
-    std::unordered_map<DrawableName, std::shared_ptr<Drawable>> drawables;
+    std::unordered_map<Drawable::DrawableName, std::shared_ptr<Drawable>> drawables;
 };

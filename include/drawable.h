@@ -6,14 +6,14 @@
 #include "index_buffer.h"
 #include "shader.h"
 
+class Drawable {
+public:
 enum DrawableName {
     FieldLines,
     Crosses,
     Triangles
 };
 
-class Drawable {
-public:
 virtual void draw() {
     shader.bind();
     vertexBuffer->bind();

@@ -34,3 +34,8 @@ void dof::addCross(std::shared_ptr<Drawable> drawable, glm::vec2 pos) {
     Vertex(glm::vec3(pos.x - 0.1f, pos.y + 0.1f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)), 
     Vertex(glm::vec3(pos.x + 0.1f, pos.y - 0.1f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)) }, std::vector<uint32_t>{0,1,2,3});
 }
+
+void dof::addTriangle(std::shared_ptr<Drawable> drawable, glm::vec2 pos) {
+    drawable->addVerticesIndices(std::vector<Vertex>{Vertex(glm::vec3(pos.x, pos.y + 0.1f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)), 
+    Vertex(glm::vec3(pos.x - 0.1f, pos.y - 0.1f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)), Vertex(glm::vec3(pos.x + 0.1f, pos.y - 0.1f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f))}, std::vector<uint32_t>{0,1,2});
+}
