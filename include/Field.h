@@ -3,21 +3,19 @@
 
 #include "glm/glm.hpp"
 
-enum BoxState {
-    EMPTY,
-    PLAYERONE,
-    PLAYERTWO
-};
-
 class Field
 {
 public:
+
+enum BoxState {
+    EMPTY = 0,
+    PLAYERONE = 1 << 0,
+    PLAYERTWO = 1 << 1
+};
+
     Field()
     {
-        boxes = std::vector<std::vector<BoxState>>();
-        for(uint32_t i = 0; i < 3; ++i) {
-            boxes.emplace_back(std::vector<BoxState>(3, EMPTY));
-        }
+        boxes = std::vector<BoxState>(9, EMPTY);
     }
 
     Field(std::string fieldRepresentation)
@@ -34,7 +32,18 @@ public:
         return idx;
     }
 
-//TODO 
+    void setBoxState(glm::ivec2 idx, BoxState state) {
+        boxes[idx.x * 3 + idx.y] = state;
+    }
+
+    BoxState getBoxState(glm::ivec2 idx) {
+        return boxes[idx.x * 3 + idx.y];
+    }
+
+    bool isEmpty(glm::ivec2 idx) {
+        return boxes[idx.x * 3 + idx.y] == EMPTY;
+    }
+
 private:
-    std::vector<std::vector<BoxState>> boxes;
+    std::vector<BoxState> boxes;
 };
