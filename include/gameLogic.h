@@ -8,7 +8,7 @@ class GameLogic {
 public:
  GameLogic(Renderer& renderer);
 
-void checkWin();
+Field::BoxState checkWin();
 
 void handleLeftMouseClick(glm::vec2 pos);
 

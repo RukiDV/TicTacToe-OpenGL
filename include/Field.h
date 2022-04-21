@@ -8,9 +8,9 @@ class Field
 public:
 
 enum BoxState {
-    EMPTY,
-    PLAYERONE,
-    PLAYERTWO
+    EMPTY = 0,
+    PLAYERONE = 1 << 0,
+    PLAYERTWO = 1 << 1
 };
 
     Field()
@@ -36,11 +36,14 @@ enum BoxState {
         boxes[idx.x * 3 + idx.y] = state;
     }
 
+    BoxState getBoxState(glm::ivec2 idx) {
+        return boxes[idx.x * 3 + idx.y];
+    }
+
     bool isEmpty(glm::ivec2 idx) {
         return boxes[idx.x * 3 + idx.y] == EMPTY;
     }
 
-//TODO 
 private:
     std::vector<BoxState> boxes;
 };

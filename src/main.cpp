@@ -27,6 +27,7 @@ int main(int argc, const char** args)
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     gameLogic.handleLeftMouseClick(normalizedMousePos);
+                    std::cout << "Winner: " << gameLogic.checkWin() << std::endl;
                 }
             }
         }
