@@ -9,14 +9,14 @@ int main(int argc, const char** args)
 {
     constexpr int window_x = 1000;
     constexpr int window_y = 800;
-
+    
     Renderer renderer(window_x, window_y);
     GameLogic gameLogic(renderer);
 
     //Create event loop, field representation
     bool quit = false;
     SDL_Event e;
-    
+
     while(!quit) {
         if(SDL_PollEvent(&e)) {
             if(e.window.event == SDL_WINDOWEVENT_CLOSE) {
