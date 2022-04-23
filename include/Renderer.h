@@ -14,6 +14,9 @@ public:
     void renderFrame();
     void addDrawable(Drawable::DrawableName drawableName, std::shared_ptr<Drawable> drawable);
     std::shared_ptr<Drawable> removeDrawable(Drawable::DrawableName drawableName);
+    glm::ivec2 getWindowSize() {
+        return glm::ivec2(width,height);
+    }
 private:
     int width;
     int height;

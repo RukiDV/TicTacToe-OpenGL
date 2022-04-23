@@ -1,5 +1,6 @@
 #include "gameLogic.h"
 #include "draw_object_factory.h"
+#include "Renderer.h"
 
 namespace dof = draw_object_factory;
 
@@ -41,9 +42,9 @@ Field::BoxState GameLogic::checkWin() {
 void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
         // equal to % 2
         if(roundCounter & 1) {
-            glm::ivec2 boxIdx = field.mousePosToBoxIdx(pos);
+            const glm::ivec2 boxIdx = field.mousePosToBoxIdx(pos);
             if (field.isEmpty(boxIdx)) {
-                dof::addCross(crosses, transformCoordSDLToOGL(pos));
+                drawCorrectedDrawable(boxIdx, pos, crosses, dof::addCross);
                 field.setBoxState(boxIdx, Field::PLAYERTWO);
             } else {
                 return;
@@ -54,7 +55,7 @@ void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
         else {
             glm::ivec2 boxIdx = field.mousePosToBoxIdx(pos);
             if (field.isEmpty(boxIdx)) {
-                dof::addTriangle(triangles, transformCoordSDLToOGL(pos));
+                drawCorrectedDrawable(boxIdx, pos, triangles, dof::addTriangle);
                 field.setBoxState(boxIdx, Field::PLAYERONE);
             } else {
                 return;
@@ -63,6 +64,19 @@ void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
             std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
         }
         roundCounter++;
+}
+
+void GameLogic::drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, std::shared_ptr<Drawable> drawable, auto addDrawableFunction) {
+    constexpr float extent = 0.1f;
+    // normalized bounds
+    glm::vec2 upperBounds((boxIdx.x + 1) / 3.0f, (boxIdx.y + 1) / 3.0f);
+    glm::vec2 lowerBounds(boxIdx.x / 3.0f, boxIdx.y / 3.0f);
+
+    // / 2.0f to convert extent from OGL coords to SDL
+    pos.x = glm::clamp(pos.x, lowerBounds.x + extent / 2.0f, upperBounds.x - extent / 2.0f);
+    pos.y = glm::clamp(pos.y, lowerBounds.y + extent / 2.0f, upperBounds.y - extent / 2.0f);
+
+    addDrawableFunction(drawable, transformCoordSDLToOGL(pos), extent);
 }
 
 void GameLogic::clear() {

@@ -15,6 +15,7 @@ void handleLeftMouseClick(glm::vec2 pos);
 void clear();
 
 private:
+void drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, std::shared_ptr<Drawable> drawable, auto addDrawableFunction);
 
 Field field;
 Renderer& renderer;
