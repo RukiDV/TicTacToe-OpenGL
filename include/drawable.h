@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 #include "defines.h"
 #include "vertex_buffer.h"

@@ -17,6 +17,9 @@ public:
     glm::ivec2 getWindowSize() {
         return glm::ivec2(width,height);
     }
+    void swapWindow() {
+        SDL_GL_SwapWindow(win);
+    }
 private:
     int width;
     int height;

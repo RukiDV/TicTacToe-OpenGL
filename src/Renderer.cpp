@@ -1,4 +1,7 @@
 #include "Renderer.h"
+#include "imgui.h"
+#include "backends/imgui_impl_sdl.h"
+#include "backends/imgui_impl_opengl3.h"
 
 Renderer::Renderer(int width, int height) : width(width), height(height) {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -6,7 +9,7 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
     SDL_GL_SetSwapInterval(1);
 
     win = SDL_CreateWindow("TicTacToe", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_GL_CreateContext(win);
+    SDL_GLContext glContext = SDL_GL_CreateContext(win);
 
     GLenum error = glewInit();
     if (error != GLEW_OK) {
@@ -14,6 +17,15 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
         std::cin.get();
         std::exit(-1);
     }
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    ImGui_ImplSDL2_InitForOpenGL(win, glContext);
+    ImGui_ImplOpenGL3_Init("#version 460");
 }
 
 //Set field and line colors
@@ -22,8 +34,6 @@ void Renderer::renderFrame() {
     for(auto i : drawables) {
         i.second->draw();
     }
-
-    SDL_GL_SwapWindow(win);
 }
 
 void Renderer::addDrawable(Drawable::DrawableName drawableName, std::shared_ptr<Drawable> drawable){

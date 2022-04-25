@@ -7,8 +7,12 @@ if (WIN32)
     set(GLEW_DIR dependencies/glew-2.1.0)
 endif()
 set(glm_DIR dependencies/glm-0.9.9.8/glm/cmake/glm)
+set(imgui_DIR dependencies/imgui-1.87)
 
-set(SOURCE_FILES src/Renderer.cpp src/shader.cpp src/Field.cpp src/lines.cpp src/triangles.cpp src/draw_object_factory.cpp src/gameLogic.cpp )
+set(SOURCE_FILES src/Renderer.cpp src/shader.cpp src/Field.cpp src/lines.cpp src/triangles.cpp src/draw_object_factory.cpp src/gameLogic.cpp
+ ${imgui_DIR}/backends/imgui_impl_opengl3.cpp ${imgui_DIR}/backends/imgui_impl_sdl.cpp ${imgui_DIR}/imgui.cpp ${imgui_DIR}/imgui_draw.cpp ${imgui_DIR}/imgui_demo.cpp ${imgui_DIR}/imgui_widgets.cpp ${imgui_DIR}/imgui_tables.cpp)
+
+ # TODO: build library with imgui
 
 add_executable(TicTacToe src/main.cpp ${SOURCE_FILES})
 
@@ -26,6 +30,7 @@ include_directories(TicTacToe PUBLIC
     ${SDL2_INCLUDE_DIRS} 
     ${GLEW_INCLUDE_DIRS} 
     ${GLM_INCLUDE_DIRS}
+    ${imgui_DIR}
     ${OPENGL_INCLUDE_DIRS}
     include)
 
