@@ -20,20 +20,46 @@ Renderer::Renderer(int width, int height) : width(width), height(height) {
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     ImGui_ImplSDL2_InitForOpenGL(win, glContext);
-    ImGui_ImplOpenGL3_Init("#version 460");
+    ImGui_ImplOpenGL3_Init();
 }
 
 //Set field and line colors
-void Renderer::renderFrame() {
-
+void Renderer::renderFrame(GuiControls& guiControls) {
     for(auto i : drawables) {
         i.second->draw();
     }
+    if(guiControls.winner) {
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+}
+
+void Renderer::setImgui(GuiControls& guiControls) {
+        // Start the Dear ImGui frame
+    ImGui_ImplSDL2_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui::NewFrame();
+     static float f = 0.0f;
+            static int counter = 0;
+        
+            ImGui::Begin("TicTacToe");                          // Create a window called "Hello, world!" and append into it.
+           
+            ImGui::Text("Schabrake %d, du hast gewonnen!", guiControls.winner);               // Display some text (you can use a format strings too)
+     
+            ImGui::ColorEdit3("set background-color", (float*)&guiControls.clearColor); // Edit 3 floats representing a color
+
+            if(ImGui::Button("Leave Game")) {                          // Buttons return true when clicked (most widgets return true when edited/activated)
+            //TODO: set functionality
+            }
+            ImGui::SameLine();
+            ImGui::Button("New Game");
+            
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::End();
 }
 
 void Renderer::addDrawable(Drawable::DrawableName drawableName, std::shared_ptr<Drawable> drawable){
