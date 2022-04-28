@@ -78,7 +78,3 @@ void GameLogic::drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, st
 
     addDrawableFunction(drawable, transformCoordSDLToOGL(pos), extent);
 }
-
-void GameLogic::clear() {
-
-}

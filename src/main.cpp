@@ -17,20 +17,18 @@ int main(int argc, const char** args)
     GameLogic gameLogic(renderer);
 
     //Create event loop, field representation
-    bool quit = false;
     SDL_Event e;
     GuiControls guiControls{glm::vec4(0.3f, 0.6f, 1.0f, 1.00f)};
     ImGuiIO& io = ImGui::GetIO();
     
 
-    while(!quit) {
+    while(!guiControls.quit) {
         while(SDL_PollEvent(&e)) {
             ImGui_ImplSDL2_ProcessEvent(&e);
-            if (!io.WantCaptureMouse) {
             if(e.window.event == SDL_WINDOWEVENT_CLOSE) {
-                quit = true;
+                guiControls.quit = true;
             }
-            else if(e.type == SDL_MOUSEBUTTONDOWN) {
+            else if(e.type == SDL_MOUSEBUTTONDOWN && !io.WantCaptureMouse) {
                 if(e.button.button == SDL_BUTTON_LEFT) {
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
@@ -39,7 +37,6 @@ int main(int argc, const char** args)
                     std::cout << "Winner: " << guiControls.winner << std::endl;
                 }
             }
-            }
         }
 
     glClearColor(guiControls.clearColor.x, guiControls.clearColor.y, guiControls.clearColor.z, guiControls.clearColor.w);
@@ -47,8 +44,13 @@ int main(int argc, const char** args)
 
     // Rendering
     if(guiControls.winner) {
-    renderer.setImgui(guiControls); 
+        renderer.setImgui(guiControls);
+        if (guiControls.newGame) {
+            gameLogic.clear();
+        }
     }
+    
+    io.WantCaptureMouse = false;
     renderer.renderFrame(guiControls);
     renderer.swapWindow();
     }

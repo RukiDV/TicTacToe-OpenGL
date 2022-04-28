@@ -33,6 +33,14 @@ void addVerticesIndices(std::vector<Vertex> newVertices, std::vector<uint32_t> n
     indexBuffer = std::make_unique<IndexBuffer>((void*) indices.data(), indices.size());
 }
 
+void clear()
+{
+    vertices.clear();
+    indices.clear();
+    vertexBuffer = std::make_unique<VertexBuffer>();
+    indexBuffer = std::make_unique<IndexBuffer>();
+}
+
 protected:
 Drawable(const std::string& vertexShader, const std::string& fragmentShader) : 
     numIndices(0), shader(Shader(vertexShader, fragmentShader)) {

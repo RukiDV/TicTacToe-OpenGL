@@ -11,8 +11,9 @@
 
 struct GuiControls {
     glm::vec4 clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    bool button1 = false;
+    bool newGame = false;
     Field::BoxState winner;
+    bool quit = false;
 };
 
 class Renderer {

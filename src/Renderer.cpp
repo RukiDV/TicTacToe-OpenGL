@@ -1,10 +1,13 @@
 #include "Renderer.h"
+#include "gameLogic.h"
 #include "imgui.h"
 #include "backends/imgui_impl_sdl.h"
 #include "backends/imgui_impl_opengl3.h"
 
 Renderer::Renderer(int width, int height) : width(width), height(height) {
     SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetSwapInterval(1);
 
@@ -33,33 +36,37 @@ void Renderer::renderFrame(GuiControls& guiControls) {
         i.second->draw();
     }
     if(guiControls.winner) {
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        if (guiControls.newGame) {
+            guiControls.newGame = false;
+            guiControls.winner = Field::EMPTY;
+        }
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 }
 
 void Renderer::setImgui(GuiControls& guiControls) {
-        // Start the Dear ImGui frame
+    // Start the Dear ImGui frame
     ImGui_ImplSDL2_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
-     static float f = 0.0f;
-            static int counter = 0;
+    static float f = 0.0f;
+    static int counter = 0;
         
-            ImGui::Begin("TicTacToe");                          // Create a window called "Hello, world!" and append into it.
+    ImGui::Begin("TicTacToe"); 
            
-            ImGui::Text("Schabrake %d, du hast gewonnen!", guiControls.winner);               // Display some text (you can use a format strings too)
+    ImGui::Text("Schabrake %d, du hast gewonnen!", guiControls.winner);  
      
-            ImGui::ColorEdit3("set background-color", (float*)&guiControls.clearColor); // Edit 3 floats representing a color
+    ImGui::ColorEdit3("set background-color", (float*)&guiControls.clearColor); 
 
-            if(ImGui::Button("Leave Game")) {                          // Buttons return true when clicked (most widgets return true when edited/activated)
-            //TODO: set functionality
-            }
-            ImGui::SameLine();
-            ImGui::Button("New Game");
+    if (ImGui::Button("Leave Game")) {
+        guiControls.quit = true;
+    }
+    ImGui::SameLine();
+    guiControls.newGame = ImGui::Button("New Game");
             
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
 }
 
 void Renderer::addDrawable(Drawable::DrawableName drawableName, std::shared_ptr<Drawable> drawable){

@@ -6,13 +6,18 @@
 class GameLogic {
 
 public:
- GameLogic(Renderer& renderer);
+GameLogic(Renderer& renderer);
 
 Field::BoxState checkWin();
 
 void handleLeftMouseClick(glm::vec2 pos);
 
-void clear();
+void clear() {
+    crosses->clear();
+    triangles->clear();
+    field = Field();
+    roundCounter = 0;
+}
 
 private:
 void drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, std::shared_ptr<Drawable> drawable, auto addDrawableFunction);
