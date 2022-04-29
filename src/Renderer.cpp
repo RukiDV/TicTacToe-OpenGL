@@ -1,5 +1,4 @@
 #include "Renderer.h"
-#include "gameLogic.h"
 #include "imgui.h"
 #include "backends/imgui_impl_sdl.h"
 #include "backends/imgui_impl_opengl3.h"
@@ -35,10 +34,10 @@ void Renderer::renderFrame(GuiControls& guiControls) {
     for(auto i : drawables) {
         i.second->draw();
     }
-    if(guiControls.winner) {
+    if(guiControls.gameState) {
         if (guiControls.newGame) {
             guiControls.newGame = false;
-            guiControls.winner = Field::EMPTY;
+            guiControls.gameState = GameLogic::NOTFINISHED;
         }
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -54,9 +53,12 @@ void Renderer::setImgui(GuiControls& guiControls) {
     static int counter = 0;
         
     ImGui::Begin("TicTacToe"); 
-           
-    ImGui::Text("Schabrake %d, du hast gewonnen!", guiControls.winner);  
-     
+
+    if(guiControls.gameState != GameLogic::DRAW) {
+    ImGui::Text("Schabrake %d, du hast gewonnen!", guiControls.gameState);
+    } else {       
+    ImGui::Text("Es ist unentschieden du Schabrake!");}
+
     ImGui::ColorEdit3("set background-color", (float*)&guiControls.clearColor); 
 
     if (ImGui::Button("Leave Game")) {

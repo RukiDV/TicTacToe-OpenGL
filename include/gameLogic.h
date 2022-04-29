@@ -1,14 +1,23 @@
 #pragma once
 
-#include "Renderer.h"
 #include "Field.h"
+#include "drawable.h"
+
+class Renderer;
 
 class GameLogic {
-
 public:
+enum GameResult {
+    NOTFINISHED,
+    PLAYERONE,
+    PLAYERTWO,
+    DRAW 
+    
+};
+
 GameLogic(Renderer& renderer);
 
-Field::BoxState checkWin();
+GameResult checkWin();
 
 void handleLeftMouseClick(glm::vec2 pos);
 

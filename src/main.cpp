@@ -33,8 +33,8 @@ int main(int argc, const char** args)
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     gameLogic.handleLeftMouseClick(normalizedMousePos);
-                    guiControls.winner = gameLogic.checkWin();
-                    std::cout << "Winner: " << guiControls.winner << std::endl;
+                    guiControls.gameState = gameLogic.checkWin();
+                    std::cout << "Winner: " << guiControls.gameState << std::endl;
                 }
             }
         }
@@ -43,7 +43,7 @@ int main(int argc, const char** args)
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Rendering
-    if(guiControls.winner) {
+    if(guiControls.gameState) {
         renderer.setImgui(guiControls);
         if (guiControls.newGame) {
             gameLogic.clear();

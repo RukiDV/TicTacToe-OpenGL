@@ -7,12 +7,12 @@
 #include "SDL.h"
 
 #include "drawable.h"
-#include "Field.h"
+#include "gameLogic.h"
 
 struct GuiControls {
     glm::vec4 clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     bool newGame = false;
-    Field::BoxState winner;
+    GameLogic::GameResult gameState;
     bool quit = false;
 };
 

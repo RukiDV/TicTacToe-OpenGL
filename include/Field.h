@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 #include "glm/glm.hpp"
 
@@ -21,7 +22,6 @@ enum BoxState {
     Field(std::string fieldRepresentation)
     {
         // TODO: make field saveable and loadable
-        std::cerr << "Not implemented!!!" << std::endl;
         std::exit(1);
     }
 
@@ -42,6 +42,10 @@ enum BoxState {
 
     bool isEmpty(glm::ivec2 idx) {
         return boxes[idx.x * 3 + idx.y] == EMPTY;
+    }
+
+    uint32_t getBoxesCount() {
+        return boxes.size();
     }
 
 private:
