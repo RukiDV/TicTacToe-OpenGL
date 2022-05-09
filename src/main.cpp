@@ -1,5 +1,8 @@
 #include <iostream>
 #include <GL/glew.h>
+#include "imgui.h"
+#include "backends/imgui_impl_sdl.h"
+#include "backends/imgui_impl_opengl3.h"
 
 #include "Renderer.h"
 #include "defines.h"
@@ -14,27 +17,46 @@ int main(int argc, const char** args)
     GameLogic gameLogic(renderer);
 
     //Create event loop, field representation
-    bool quit = false;
     SDL_Event e;
+    GuiControls guiControls{glm::vec4(0.3f, 0.6f, 1.0f, 1.00f)};
+    ImGuiIO& io = ImGui::GetIO();
+    
 
-    while(!quit) {
-        if(SDL_PollEvent(&e)) {
+    while(!guiControls.quit) {
+        while(SDL_PollEvent(&e)) {
+            ImGui_ImplSDL2_ProcessEvent(&e);
             if(e.window.event == SDL_WINDOWEVENT_CLOSE) {
-                quit = true;
+                guiControls.quit = true;
             }
-            else if(e.type == SDL_MOUSEBUTTONDOWN) {
+            else if(e.type == SDL_MOUSEBUTTONDOWN && !io.WantCaptureMouse) {
                 if(e.button.button == SDL_BUTTON_LEFT) {
                     std::cout << "Mouse position: " << e.button.x << "; " << e.button.y << std::endl;
                     glm::vec2 normalizedMousePos(float(e.button.x) / float(window_x), float(e.button.y) / float(window_y));
                     gameLogic.handleLeftMouseClick(normalizedMousePos);
-                    std::cout << "Winner: " << gameLogic.checkWin() << std::endl;
+                    guiControls.gameState = gameLogic.checkWin();
+                    std::cout << "Winner: " << guiControls.gameState << std::endl;
                 }
             }
         }
 
-        glClearColor(0.3f, 0.7f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        renderer.renderFrame();
+    glClearColor(guiControls.clearColor.x, guiControls.clearColor.y, guiControls.clearColor.z, guiControls.clearColor.w);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Rendering
+    if(guiControls.gameState) {
+        renderer.setImgui(guiControls);
+        if (guiControls.newGame) {
+            gameLogic.clear();
+        }
     }
+    
+    io.WantCaptureMouse = false;
+    renderer.renderFrame(guiControls);
+    renderer.swapWindow();
+    }
+    
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
     return 0;
 }

@@ -15,7 +15,7 @@ GameLogic::GameLogic(Renderer& renderer) : renderer(renderer), roundCounter(0) {
     renderer.addDrawable(Drawable::Triangles, triangles);
  }
 
-Field::BoxState GameLogic::checkWin() {
+GameLogic::GameResult GameLogic::checkWin() {
     uint32_t diagWinner1 = uint32_t(-1);
     uint32_t diagWinner2 = uint32_t(-1);
 
@@ -30,13 +30,17 @@ Field::BoxState GameLogic::checkWin() {
             columnWinner &= field.getBoxState(glm::ivec2(j, i));
         }
         // rowWinner != 0 (in C++ is 0 false and anything else true)
-        if (rowWinner) return Field::BoxState(rowWinner);
-        if (columnWinner) return Field::BoxState(columnWinner);
+        if (rowWinner) return GameLogic::GameResult(std::log2(rowWinner) + 1);
+        if (columnWinner) return GameLogic::GameResult(std::log2(columnWinner) + 1);
     }
-    if(diagWinner1) return Field::BoxState(diagWinner1);
-    if(diagWinner2) return Field::BoxState(diagWinner2);
+    if(diagWinner1) return GameLogic::GameResult(std::log2(diagWinner1) + 1);
+    if(diagWinner2) return GameLogic::GameResult(std::log2(diagWinner2) + 1);
 
-    return Field::EMPTY;
+    if (roundCounter == field.getBoxesCount()) {
+        return GameLogic::DRAW;
+    }
+
+    return GameLogic::NOTFINISHED;
 }
 
 void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
@@ -77,8 +81,4 @@ void GameLogic::drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, st
     pos.y = glm::clamp(pos.y, lowerBounds.y + extent / 2.0f, upperBounds.y - extent / 2.0f);
 
     addDrawableFunction(drawable, transformCoordSDLToOGL(pos), extent);
-}
-
-void GameLogic::clear() {
-
 }

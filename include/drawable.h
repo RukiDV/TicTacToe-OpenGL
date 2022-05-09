@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 #include "defines.h"
 #include "vertex_buffer.h"
@@ -30,6 +31,14 @@ void addVerticesIndices(std::vector<Vertex> newVertices, std::vector<uint32_t> n
     }
     vertexBuffer = std::make_unique<VertexBuffer>((void*) vertices.data(), vertices.size());
     indexBuffer = std::make_unique<IndexBuffer>((void*) indices.data(), indices.size());
+}
+
+void clear()
+{
+    vertices.clear();
+    indices.clear();
+    vertexBuffer = std::make_unique<VertexBuffer>();
+    indexBuffer = std::make_unique<IndexBuffer>();
 }
 
 protected:

@@ -1,18 +1,32 @@
 #pragma once
 
-#include "Renderer.h"
 #include "Field.h"
+#include "drawable.h"
+
+class Renderer;
 
 class GameLogic {
-
 public:
- GameLogic(Renderer& renderer);
+enum GameResult {
+    NOTFINISHED,
+    PLAYERONE,
+    PLAYERTWO,
+    DRAW 
+    
+};
 
-Field::BoxState checkWin();
+GameLogic(Renderer& renderer);
+
+GameResult checkWin();
 
 void handleLeftMouseClick(glm::vec2 pos);
 
-void clear();
+void clear() {
+    crosses->clear();
+    triangles->clear();
+    field = Field();
+    roundCounter = 0;
+}
 
 private:
 void drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, std::shared_ptr<Drawable> drawable, auto addDrawableFunction);
