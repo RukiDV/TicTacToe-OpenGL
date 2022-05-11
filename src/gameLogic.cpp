@@ -4,16 +4,12 @@
 
 namespace dof = draw_object_factory;
 
-GameLogic::GameLogic(Renderer& renderer) : renderer(renderer), roundCounter(0) {
-    fieldLines = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
-    crosses = std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f);
-    triangles = std::make_shared<Triangles>("../shader/basic.vert", "../shader/basic.frag");
-    dof::addFieldLines(fieldLines);
-    
-    renderer.addDrawable(Drawable::FieldLines, fieldLines);
-    renderer.addDrawable(Drawable::Crosses, crosses);
-    renderer.addDrawable(Drawable::Triangles, triangles);
- }
+GameLogic::GameLogic(Renderer* renderer) : renderer(renderer), roundCounter(0) {
+    renderer->addDrawable(Drawable::FieldLines, std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f));
+    renderer->addDrawable(Drawable::Crosses, std::make_shared<Lines>("../shader/basic.vert", "../shader/basic.frag", 5.0f));
+    renderer->addDrawable(Drawable::Triangles, std::make_shared<Triangles>("../shader/basic.vert", "../shader/basic.frag"));
+    dof::addFieldLines(renderer->getDrawable(Drawable::FieldLines));
+}
 
 GameLogic::GameResult GameLogic::checkWin() {
     uint32_t diagWinner1 = uint32_t(-1);
@@ -48,7 +44,7 @@ void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
         if(roundCounter & 1) {
             const glm::ivec2 boxIdx = field.mousePosToBoxIdx(pos);
             if (field.isEmpty(boxIdx)) {
-                drawCorrectedDrawable(boxIdx, pos, crosses, dof::addCross);
+                drawCorrectedDrawable(boxIdx, pos, renderer->getDrawable(Drawable::Crosses), dof::addCross);
                 field.setBoxState(boxIdx, Field::PLAYERTWO);
             } else {
                 return;
@@ -59,7 +55,7 @@ void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
         else {
             glm::ivec2 boxIdx = field.mousePosToBoxIdx(pos);
             if (field.isEmpty(boxIdx)) {
-                drawCorrectedDrawable(boxIdx, pos, triangles, dof::addTriangle);
+                drawCorrectedDrawable(boxIdx, pos, renderer->getDrawable(Drawable::Triangles), dof::addTriangle);
                 field.setBoxState(boxIdx, Field::PLAYERONE);
             } else {
                 return;
@@ -68,6 +64,13 @@ void GameLogic::handleLeftMouseClick(glm::vec2 pos) {
             std::cout << "Box index: " << boxIdx.x << "; " << boxIdx.y << std::endl;
         }
         roundCounter++;
+}
+
+void GameLogic::clear() {
+    renderer->getDrawable(Drawable::Crosses)->clear();
+    renderer->getDrawable(Drawable::Triangles)->clear();
+    field = Field();
+    roundCounter = 0;
 }
 
 void GameLogic::drawCorrectedDrawable(const glm::ivec2 boxIdx, glm::vec2 pos, std::shared_ptr<Drawable> drawable, auto addDrawableFunction) {

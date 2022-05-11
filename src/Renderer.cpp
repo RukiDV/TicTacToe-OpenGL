@@ -34,24 +34,36 @@ void Renderer::renderFrame(GuiControls& guiControls) {
     for(auto i : drawables) {
         i.second->draw();
     }
-    if(guiControls.gameState) {
-        if (guiControls.newGame) {
-            guiControls.newGame = false;
-            guiControls.gameState = GameLogic::NOTFINISHED;
-        }
+
+    if(guiControls.imGuiMode != ImGuiMode::NONE) {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 }
 
-void Renderer::setImgui(GuiControls& guiControls) {
+void Renderer::makeStartScreen(GuiControls& guiControls) {
     // Start the Dear ImGui frame
     ImGui_ImplSDL2_NewFrame();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
-    static float f = 0.0f;
-    static int counter = 0;
-        
+    ImGui::Begin("Start"); 
+
+    ImGui::ColorEdit3("set background-color", (float*)&guiControls.clearColor); 
+
+    guiControls.newGame = ImGui::Button("TicTacToe");
+    if (ImGui::Button("Leave Game")) {
+        guiControls.quit = true;
+    }
+            
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+}
+
+void Renderer::makeEndScreen(GuiControls& guiControls) {
+    // Start the Dear ImGui frame
+    ImGui_ImplSDL2_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui::NewFrame();
     ImGui::Begin("TicTacToe"); 
 
     if(guiControls.gameState != GameLogic::DRAW) {

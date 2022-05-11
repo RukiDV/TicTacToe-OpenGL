@@ -9,10 +9,23 @@
 #include "drawable.h"
 #include "gameLogic.h"
 
+enum class Game {
+    NONE,
+    TICTACTOE
+};
+
+enum class ImGuiMode {
+    NONE,
+    ENDSCREEN,
+    STARTSCREEN
+};
+
 struct GuiControls {
     glm::vec4 clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
     bool newGame = false;
     GameLogic::GameResult gameState;
+    ImGuiMode imGuiMode = ImGuiMode::STARTSCREEN;
+    Game game = Game::NONE;
     bool quit = false;
 };
 
@@ -25,10 +38,14 @@ public:
     glm::ivec2 getWindowSize() {
         return glm::ivec2(width,height);
     }
+    std::shared_ptr<Drawable> getDrawable(Drawable::DrawableName name) {
+        return drawables.at(name);
+    }
     void swapWindow() {
         SDL_GL_SwapWindow(win);
     }
-    void setImgui(GuiControls& guiControls);
+    void makeEndScreen(GuiControls& guiControls);
+    void makeStartScreen(GuiControls& guiControls);
 
 private:
     int width;
